@@ -1,11 +1,12 @@
-FROM rocker/r-ver:4.3.0
+FROM python:3.11-slim
 
 WORKDIR /app
 
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
 COPY . .
 
-RUN Rscript -e 'if(file.exists("install_packages.R")) source("install_packages.R")'
+EXPOSE 5000
 
-EXPOSE 3838
-
-CMD ["Rscript", "main.R"]
+CMD ["python", "app.py"]
